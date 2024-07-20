@@ -4,13 +4,13 @@ import streamlit as st
 
 # Using Stable image ultra api
 API_ENDPOINT = "https://api.stability.ai/v2beta/stable-image/generate/ultra"
-API_KEY = "sk-1QazoEQp6X7MFf2Iug4sU9Y4Kwdcsnj49fUPKs9oLFqIfxgL"   # Replace with your Stable Diffusion API key
+API_KEY = "sk-API_KEY"   # Replace with your Stable Diffusion API key
 OUTPUT_FOLDER = "./generated_logos"  # Folder to save generated logos
 
 def generate_logos(prompt, num_variations):
     headers = {
         "Authorization": f"Bearer {API_KEY}",
-        "Accept": "image/*"  # Specify that we accept JSON responses
+        "Accept": "image/*"  
     }
 
     # Convert the data dictionary into a multipart/form-data request
@@ -22,7 +22,7 @@ def generate_logos(prompt, num_variations):
     try:
         response = requests.post(API_ENDPOINT, headers=headers, files=files)
         if response.status_code == 200:
-            return response.json()  # Return the response JSON for further processing
+            return response.json()  
         else:
             st.error(f"Error: {response.status_code} - {response.json()}")
             return None
@@ -37,7 +37,7 @@ def save_logos(logos_data):
 
     saved_logos = []
     for idx, logo in enumerate(logos_data['logos']):
-        filename = f"logo_{idx + 1}.png"  # Adjust extension based on API response format
+        filename = f"logo_{idx + 1}.png"  
         filepath = os.path.join(OUTPUT_FOLDER, filename)
         with open(filepath, 'wb') as file:
             file.write(requests.get(logo['url']).content)
